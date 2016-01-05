@@ -1,0 +1,49 @@
+﻿<Window x:Class="MaxExperiment.Main.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:MaxExperiment.Main"
+        Title="MaxTest" Height="350" Width="600" WindowStartupLocation="CenterScreen">
+    <Window.DataContext>
+        <vm:MainWindowVM />
+    </Window.DataContext>
+    
+    <Window.InputBindings>
+        <KeyBinding Key="{Binding ExitCommandKey}" Modifiers="{Binding ExitCommandMod}" Command="{Binding ExitCommand}"/>
+    </Window.InputBindings>
+
+
+    <DockPanel LastChildFill="True">
+        <!-- TOP MENU BAR -->
+        <Menu DockPanel.Dock="Top" IsMainMenu="True">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Exit" InputGestureText="{Binding ExitCommandLbl}" Command="{Binding ExitCommand}"/>
+            </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Header="_About" Command="{Binding AboutCommand}"/>
+            </MenuItem>
+        </Menu>
+
+        <!-- BUTTONS AREA -->
+        <StackPanel DockPanel.Dock="Left">
+            <ListBox x:Name="ListBoxMenu"
+                 Margin="5"
+                 ItemsSource="{Binding ContentVM}"
+                 SelectedIndex="0">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}" Padding="10, 5, 10, 5"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </StackPanel>
+
+        <!-- CONTENT AREA -->
+        <ContentControl
+                        HorizontalAlignment="Stretch" 
+                        VerticalAlignment="Stretch" 
+                        HorizontalContentAlignment="Stretch" 
+                        VerticalContentAlignment="Stretch"
+                        Content="{Binding ElementName=ListBoxMenu, Path=SelectedItem.Control}"
+                        Margin="5"/>
+    </DockPanel>
+</Window>

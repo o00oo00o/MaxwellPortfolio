@@ -1,0 +1,31 @@
+﻿<Application x:Class="MaxExperiment.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:m="clr-namespace:MaxExperiment"
+             StartupUri="Main/MainWindow.xaml">
+    
+    <Application.Resources>
+        <Style x:Key="TextErrorStyle" TargetType="{x:Type TextBox}">
+            <Setter Property="Validation.ErrorTemplate">
+                <Setter.Value>
+                    <ControlTemplate x:Name="TextErrorTemplate">
+                        <DockPanel LastChildFill="True">
+                            <AdornedElementPlaceholder>
+                                <Border BorderBrush="Red" BorderThickness="2"/>
+                            </AdornedElementPlaceholder>
+                            <TextBlock FontSize="20" Foreground="Red">*?*</TextBlock>
+                        </DockPanel>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <!--<Setter Property="Background" Value="Red"/>-->
+                    <Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self},Path=(Validation.Errors)[0].ErrorContent}"></Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Application.Resources>
+    
+</Application>

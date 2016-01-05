@@ -1,0 +1,6 @@
+﻿CREATE TABLE "Person" (
+	"ID" INTEGER PRIMARY KEY  NOT NULL  UNIQUE ,
+	"Name" TEXT NOT NULL  UNIQUE ,
+	"Mobile" Text,
+	"Email" Text
+)

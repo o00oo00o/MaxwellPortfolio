@@ -1,0 +1,75 @@
+﻿<UserControl x:Class="MaxExperiment.Module.Service.ClientManagerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase">
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Button Width="80" Content="Add" Command="{Binding AddCommand}" />
+            <Button Width="80" Content="Refresh" Command="{Binding LoadCommand}" />
+        </StackPanel>
+        
+        <DataGrid Grid.Row="1" 
+                AutoGenerateColumns="False" SelectionMode="Single" SelectionUnit="FullRow"  IsReadOnly="True"
+                x:Name="dgContacts"
+                ItemsSource="{Binding Contacts}"
+                SelectedItem="{Binding SelectedContact, Mode=TwoWay}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="100" Header="Name" Binding="{Binding Name}"/>
+                <DataGridTextColumn Width="100" Header="Mobile" Binding="{Binding Mobile}"/>
+                <DataGridTextColumn Width="150" Header="E-Mail" Binding="{Binding Email}" />
+                
+                <!-- EDIT COLUMN-->
+                <DataGridTemplateColumn MinWidth="60" Header="Edit">
+                    <DataGridTemplateColumn.HeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTemplateColumn.HeaderStyle>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Edit"
+                                    Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}},
+                                              Path=DataContext.EditCommand}"
+                                    CommandParameter="{Binding}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <!-- DELETE COLUMN-->
+                <DataGridTemplateColumn MinWidth="60" Header="Delete">
+                    <DataGridTemplateColumn.HeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTemplateColumn.HeaderStyle>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Delete"
+                                    Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}},
+                                              Path=DataContext.DeleteCommand}"
+                                    CommandParameter="{Binding}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+            
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="_Add" Command="{Binding AddCommand}"/>
+                    <MenuItem Header="_Edit" Command="{Binding EditCommand}" IsEnabled="{Binding IsContactSelected}"/>
+                    <MenuItem Header="_Delete" Command="{Binding DeleteCommand}" IsEnabled="{Binding IsContactSelected}"/>
+                    
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+        </DataGrid>
+    </Grid>
+</UserControl>
